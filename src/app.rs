@@ -86,6 +86,26 @@ impl eframe::App for TemplateApp {
                 "Source code."
             ));
 
+			ui.separator();
+			use crate::webp_loader;
+			use crate::http_loader;
+			use crate::jxl_loader;
+			if !ctx.is_loader_installed(webp_loader::WebPLoader::ID) {
+				ctx.add_image_loader(std::sync::Arc::new(webp_loader::WebPLoader::default()));
+				log::warn!("installed WebPLoader");
+			}
+			if !ctx.is_loader_installed(jxl_loader::JxlLoader::ID) {
+				ctx.add_image_loader(std::sync::Arc::new(jxl_loader::JxlLoader::default()));
+				log::warn!("installed JxlLoader");
+			}
+			if !ctx.is_loader_installed(http_loader::EhttpLoader::ID) {
+				ctx.add_bytes_loader(std::sync::Arc::new(http_loader::EhttpLoader::default()));
+				log::warn!("installed EhttpLoader");
+			}
+			use egui::Widget;
+			egui::Image::new("https://jpegxl.info/images/anim-icos.webp").fit_to_original_size(1.).ui(ui);
+			egui::Image::new("https://jpegxl.info/images/anim-icos.jxl").fit_to_original_size(1.).ui(ui);
+
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);

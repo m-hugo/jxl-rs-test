@@ -11,19 +11,23 @@ all-features = true
 targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
 
 [dependencies]
-egui = "0.33.0"
-eframe = { version = "0.33.0", default-features = false, features = [
-    "accesskit",     # Make egui compatible with screen readers. NOTE: adds a lot of dependencies.
+egui = {git = "https://github.com/m-hugo/egui-jxl", branch = "release/0.33.3"}
+eframe = { git = "https://github.com/m-hugo/egui-jxl", branch = "release/0.33.3", default-features = false, features = [
     "default_fonts", # Embed the default egui fonts.
     "glow",          # Use the glow rendering backend. Alternative: "wgpu".
     "persistence",   # Enable restoring app state when restarting the app.
     "wayland",       # To support Linux (and CI)
-    "x11",           # To support older Linux distributions (restores one of the default features)
 ] }
 log = "0.4.27"
 
 # You only need serde if you want app persistence:
 serde = { version = "1.0.219", features = ["derive"] }
+ahash = { version = "0.8.12", default-features = false }
+image = { version = "0.25.9", default-features = false, features = ["webp"] }
+ehttp = "0.6.0"
+#jxl = "0.3.0"
+jxl = { git = "https://github.com/libjxl/jxl-rs" }
+color-eyre = "0.6.5"
 
 # native:
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
